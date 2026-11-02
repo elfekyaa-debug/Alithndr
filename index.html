@@ -1,40 +1,301 @@
 <!doctype html>
-<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101827"><title>EGX AI Trader</title>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>خطة صفقة EGX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b1220;--p:#121d2e;--p2:#18263a;--line:#26374e;--t:#eef4fb;--m:#9eb0c6;--g:#28c58a;--r:#ff6b75;--a:#f3bd58}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:15px system-ui,sans-serif}.wrap{max-width:1100px;margin:auto;padding:16px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-size:23px;font-weight:800}.muted,.k{color:var(--m);font-size:12px}.pill,.tag{border:1px solid #665022;color:var(--a);border-radius:20px;padding:5px 9px;font-size:11px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:15px 0}.card{background:var(--p);border:1px solid var(--line);border-radius:14px;padding:14px}.v{font-size:23px;font-weight:800;margin-top:5px}.layout{display:grid;grid-template-columns:1.3fr .8fr;gap:12px}.title{font-weight:750;margin:0 0 12px}table{width:100%;border-collapse:collapse;font-size:13px}td,th{text-align:right;padding:11px 7px;border-bottom:1px solid var(--line)}th{color:var(--m)}.green{color:var(--g)}.red{color:var(--r)}.amber{color:var(--a)}label{display:block;color:var(--m);font-size:12px;margin:10px 0 5px}input{width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;background:#0c1626;color:var(--t)}button{border:0;border-radius:9px;padding:10px 13px;background:var(--g);color:#062116;font-weight:750;cursor:pointer}.secondary{background:var(--p2);border:1px solid var(--line);color:var(--t)}.danger{background:#4a202b;color:#ffdce0}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.notice{background:#302817;border:1px solid #665022;color:#f5d99d;padding:12px;border-radius:11px;font-size:12px;line-height:1.7;margin:14px 0}.signal{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}footer{text-align:center;color:var(--m);font-size:11px;margin:22px}#toast{display:none;position:fixed;bottom:15px;left:50%;transform:translateX(-50%);background:#21334b;padding:12px;border-radius:10px;max-width:90%}
-@media(max-width:720px){.grid{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.wrap{padding:11px}}
-</style></head><body><main class="wrap">
-<header class="top"><div><div class="brand">⚡ EGX AI Trader</div><div class="muted">لوحة مراقبة وفرص — نسخة MVP تجريبية</div></div><span class="pill">● DEMO · غير متصل بالسوق</span></header>
-<div class="notice"><b>تنبيه:</b> الأسعار والأسهم والأرصدة والإشارات هنا افتراضية للتجربة فقط. لا يوجد اتصال بثاندر أو أسعار EGX، ولا يمكن إرسال أوامر حقيقية.</div>
+:root{color-scheme:dark;--bg:#0e1522;--panel:#151e30;--raise:#1d2940;--line:#2a3856;--text:#e9edf5;--mute:#98a4bc;--stop:#f08a6b;--go:#49c5a1;--entry:#8db5ff;--warn:#f2c35b;--f:"IBM Plex Sans Arabic","Segoe UI",Tahoma,system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.7 var(--f);padding:24px 16px 48px}
+.wrap{max-width:980px;margin:0 auto}
+h1{font-size:clamp(1.9rem,6vw,2.8rem);line-height:1.2;margin:0 0 6px;font-weight:600}
+h2{font-size:1.15rem;margin:0 0 14px;font-weight:600}
+h3{font-size:.95rem;margin:18px 0 8px;font-weight:600;color:var(--mute)}
+.lead{color:var(--mute);margin:0 0 14px;max-width:52ch}
+.pill{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:99px;padding:2px 12px;font-size:.85rem;color:var(--mute)}
+.pill i{width:8px;height:8px;border-radius:50%;border:2px solid var(--warn)}
+.pill a{color:var(--entry)}
+.grid{display:grid;gap:20px;margin-top:24px}
+@media(min-width:820px){.grid{grid-template-columns:minmax(0,5fr) minmax(0,6fr);align-items:start}}
+.panel{background:var(--panel);border-radius:14px;padding:20px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fields .wide{grid-column:1/-1}
+label{display:block;font-size:.88rem;color:var(--mute);margin-bottom:2px}
+input,select{width:100%;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 12px;min-height:44px}
+input[dir=ltr]{text-align:right}
+:focus-visible{outline:2px solid var(--entry);outline-offset:2px}
+.empty{color:var(--mute);margin:0}
+.ladder{display:flex;gap:18px;height:250px;margin:6px 0 20px}
+.bar{position:relative;width:14px;border-radius:7px;overflow:hidden;flex:none;display:flex;flex-direction:column}
+.bar .g{background:var(--go)}.bar .l{background:var(--stop)}
+.marks{position:relative;flex:1}
+.mk{position:absolute;inset-inline:0;transform:translateY(50%);line-height:1.3}
+.mk b{display:block;font-weight:600;font-size:1.15rem;font-variant-numeric:tabular-nums}
+.mk span{font-size:.85rem;color:var(--mute)}
+.mk.t b{color:var(--go)}.mk.s b{color:var(--stop)}.mk.e b{color:var(--entry)}
+dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:6px 16px}
+dt{color:var(--mute)}dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums;text-align:left}
+.msgs{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:8px}
+.msgs li{padding:8px 12px;border-radius:8px;background:var(--raise);border-inline-start:4px solid var(--warn);font-size:.92rem}
+.msgs li.err{border-color:var(--stop)}
+.checks{display:grid;gap:6px;margin:0 0 14px}
+.checks label{display:flex;gap:10px;align-items:center;color:var(--text);font-size:.95rem;min-height:36px;margin:0}
+.checks input{width:20px;height:20px;min-height:0;padding:0;accent-color:var(--go)}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+button{font:inherit;min-height:44px;padding:8px 18px;border-radius:8px;border:1px solid var(--line);background:var(--raise);color:var(--text);cursor:pointer}
+button.main{background:var(--entry);color:#0e1522;border-color:var(--entry);font-weight:600}
+button:disabled{opacity:.45;cursor:not-allowed}
+.ok{color:var(--go);font-size:.9rem;min-height:1.4em;margin:8px 0 0}
+.meter{height:10px;border-radius:5px;background:var(--bg);overflow:hidden;margin:6px 0 4px}
+.meter div{height:100%;background:var(--go);width:0}
+.log{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:6px}
+.log li{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--raise);border-radius:8px;padding:4px 6px 4px 12px}
+.log button{min-height:36px;padding:2px 12px}
+.full{margin-top:20px}
+.note{color:var(--mute);font-size:.85rem;margin-top:24px;max-width:70ch}
+.hide{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>خطة صفقة</h1>
+  <p class="lead">احسب الكمية ووقف الخسارة والهدف، ثم نفّذ الصفقة بنفسك في ThndrX.</p>
+  <span class="pill"><i></i>غير متصل بثاندر <a href="https://x.thndr.app" target="_blank" rel="noopener">فتح ThndrX</a></span>
+</header>
+
 <div class="grid">
-<div class="card"><div class="k">رأس مال المضاربة (مثال)</div><div class="v">60,000 ج.م</div></div>
-<div class="card"><div class="k">حد الخسارة اليومي المقترح</div><div class="v red">900 ج.م</div></div>
-<div class="card"><div class="k">فرص تحت المراقبة</div><div class="v">3</div></div>
-<div class="card"><div class="k">اتصال السوق</div><div class="v amber" style="font-size:18px">غير متصل</div></div>
+<section class="panel" aria-labelledby="h-in">
+  <h2 id="h-in">بيانات الصفقة</h2>
+  <div class="fields">
+    <div class="wide"><label for="sym">رمز السهم</label><input id="sym" dir="ltr" autocomplete="off" placeholder="COMI"></div>
+    <div><label for="entry">سعر الدخول</label><input id="entry" dir="ltr" inputmode="decimal" autocomplete="off"></div>
+    <div><label for="stop">وقف الخسارة</label><input id="stop" dir="ltr" inputmode="decimal" autocomplete="off"></div>
+    <div class="wide"><label for="target">الهدف</label><input id="target" dir="ltr" inputmode="decimal" autocomplete="off"></div>
+  </div>
+  <h3>حدود المخاطرة</h3>
+  <div class="fields">
+    <div><label for="cap">رأس المال (ج.م)</label><input id="cap" dir="ltr" inputmode="decimal" value="60000"></div>
+    <div><label for="risk">المخاطرة في الصفقة (%)</label><input id="risk" dir="ltr" inputmode="decimal" value="0.5"></div>
+    <div><label for="daily">حد الخسارة اليومي (%)</label><input id="daily" dir="ltr" inputmode="decimal" value="1.5"></div>
+    <div><label for="maxpos">أقصى حجم للمركز (% من رأس المال)</label><input id="maxpos" dir="ltr" inputmode="decimal" value="30"></div>
+    <div><label for="fee">العمولة</label>
+      <select id="fee"><option value="pct">0.1% على كل أمر</option><option value="flat">2 جنيه ثابتة للأمر</option></select></div>
+    <div><label for="other">رسوم أخرى (% لكل جانب)</label><input id="other" dir="ltr" inputmode="decimal" value="0"></div>
+  </div>
+</section>
+
+<section class="panel" aria-labelledby="h-out" aria-live="polite">
+  <h2 id="h-out">الخطة</h2>
+  <p class="empty" id="empty">أدخل سعر الدخول ووقف الخسارة والهدف لتظهر الخطة.</p>
+  <div id="out" class="hide">
+    <div class="ladder">
+      <div class="bar" id="bar"><div class="g" id="barg"></div><div class="l" id="barl"></div></div>
+      <div class="marks">
+        <div class="mk t" id="mt"><b></b><span></span></div>
+        <div class="mk e" id="me"><b></b><span></span></div>
+        <div class="mk s" id="ms"><b></b><span></span></div>
+      </div>
+    </div>
+    <dl id="stats"></dl>
+  </div>
+  <ul class="msgs" id="msgs"></ul>
+</section>
 </div>
-<div class="layout"><section class="card"><h3 class="title">ماسح الفرص — بيانات افتراضية</h3>
-<table><thead><tr><th>السهم</th><th>السعر</th><th>التغير</th><th>التقييم</th><th>الحالة</th></tr></thead><tbody>
-<tr><td>COMI</td><td>72.40</td><td class="green">+2.1%</td><td>91/100</td><td>مراقبة</td></tr>
-<tr><td>EFID</td><td>18.65</td><td class="green">+1.4%</td><td>86/100</td><td>انتظار اختراق</td></tr>
-<tr><td>FWRY</td><td>6.82</td><td class="red">-0.6%</td><td>78/100</td><td>انتظار</td></tr>
-</tbody></table><p class="muted">الأسماء والأسعار أمثلة وليست بيانات فعلية أو توصيات.</p>
-<h3 class="title" style="margin-top:22px">سجل النشاط</h3><div id="log" class="muted">لا توجد صفقات. لم يتم إرسال أي أمر.</div></section>
-<aside class="card"><h3 class="title">حاسبة المخاطرة</h3>
-<label>رأس المال (جنيه)</label><input id="capital" type="number" value="60000">
-<label>نسبة المخاطرة (%)</label><input id="risk" type="number" value="0.5" step="0.1">
-<label>سعر الدخول الافتراضي</label><input id="entry" type="number" value="10" step="0.001">
-<label>وقف الخسارة الافتراضي</label><input id="stop" type="number" value="9.8" step="0.001">
-<div class="card" style="margin-top:12px;background:var(--p2)"><div class="k">الكمية القصوى حسب المخاطرة</div><div class="v" id="qty">1,500 سهم</div><div class="muted" id="riskcash">الخسارة المخططة: 300 جنيه</div></div>
-<div class="actions"><button class="secondary" onclick="calc()">إعادة الحساب</button></div></aside></div>
-<section class="card" style="margin-top:13px"><h3 class="title">مراجعة صفقة تجريبية</h3>
-<div class="signal"><div><b>DEMO-SYMBOL</b><div class="muted">اختراق مقاومة — مثال فقط</div></div><b class="green">82/100</b></div>
-<div class="grid" style="grid-template-columns:repeat(3,1fr)"><div><div class="k">الدخول</div><b>10.00</b></div><div><div class="k">وقف الخسارة</div><b>9.80</b></div><div><div class="k">الهدف الأول</div><b>10.40</b></div></div>
-<div class="muted">الموافقة هنا محلية للتجربة فقط، ولا تتصل بثاندر.</div><div class="actions"><button onclick="approve()">موافقة تجريبية</button><button class="danger" onclick="reject()">رفض الفكرة</button></div></section>
-<footer>EGX AI Trader MVP · Demo only · لا تستخدم البيانات لاتخاذ قرار استثماري</footer></main><div id="toast"></div>
+
+<section class="panel full" aria-labelledby="h-do">
+  <h2 id="h-do">قبل التنفيذ في ThndrX</h2>
+  <div class="checks">
+    <label><input type="checkbox" class="chk">السعر الحالي قريب من سعر الدخول</label>
+    <label><input type="checkbox" class="chk">الكمية في الأمر تطابق الخطة</label>
+    <label><input type="checkbox" class="chk">وقف الخسارة والهدف مضبوطان في أمر bracket</label>
+    <label><input type="checkbox" class="chk">الخسارة المخططة داخل المتبقي من حد اليوم</label>
+  </div>
+  <div class="btns">
+    <button class="main" id="copy" disabled>نسخ الخطة</button>
+    <button id="logit" disabled>سجّلت الصفقة</button>
+  </div>
+  <p class="ok" id="copied" role="status"></p>
+
+  <h3>سجل اليوم</h3>
+  <div id="dailybox">
+    <div class="meter"><div id="meterfill"></div></div>
+    <div id="dailytxt" class="empty"></div>
+  </div>
+  <ul class="log" id="log"></ul>
+</section>
+
+<p class="note">هذه الصفحة أداة حساب فقط: لا تتصل بثاندر ولا ترسل أوامر، والأرقام ليست توصية. السجل والإعدادات تُحفظ على جهازك في هذا المتصفح. راجع كشف الرسوم الفعلي في حسابك، فالرسوم هنا تقديرية.</p>
+</div>
+
 <script>
-function toast(s){let t=document.getElementById('toast');t.textContent=s;t.style.display='block';setTimeout(()=>t.style.display='none',2600)}
-function calc(){let c=+document.getElementById('capital').value,r=+document.getElementById('risk').value/100,e=+document.getElementById('entry').value,s=+document.getElementById('stop').value;if(c<=0||e<=0||s<=0||s>=e||r<=0){toast('راجع المدخلات: وقف الخسارة لازم يكون أقل من الدخول');return}let max=c*r,q=Math.floor(max/(e-s));document.getElementById('qty').textContent=q.toLocaleString('en-US')+' سهم';document.getElementById('riskcash').textContent='الخسارة المخططة: '+(q*(e-s)).toFixed(2)+' جنيه قبل المصروفات والانزلاق'}
-function approve(){document.getElementById('log').textContent='تم تسجيل موافقة تجريبية فقط. لم يتم إرسال أي أمر.';toast('موافقة تجريبية — لا يوجد تنفيذ حقيقي')}
-function reject(){document.getElementById('log').textContent='تم رفض الفكرة التجريبية. لم يتم إرسال أي أمر.';toast('تم تسجيل الرفض التجريبي')}calc();
-</script></body></html>
+const $=id=>document.getElementById(id);
+const AR={'٠':0,'١':1,'٢':2,'٣':3,'٤':4,'٥':5,'٦':6,'٧':7,'٨':8,'٩':9};
+function num(v){
+  const s=String(v==null?'':v).trim().replace(/[٠-٩]/g,d=>AR[d]).replace(/٫/g,'.').replace(/[٬,\s]/g,'');
+  return s===''?NaN:Number(s);
+}
+const f2=n=>Number.isFinite(n)?n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
+const f0=n=>Number.isFinite(n)?n.toLocaleString('en-US',{maximumFractionDigits:0}):'—';
+
+const SET_KEY='egx-plan-settings-v1', LOG_KEY='egx-plan-log-v1';
+const SET_IDS=['cap','risk','daily','maxpos','fee','other'];
+const today=()=>new Date().toLocaleDateString('sv-SE');
+function loadLog(){
+  try{const d=JSON.parse(localStorage.getItem(LOG_KEY)||'null');if(d&&d.day===today()&&Array.isArray(d.items))return d;}catch(e){}
+  return {day:today(),items:[]};
+}
+function saveLog(d){try{localStorage.setItem(LOG_KEY,JSON.stringify(d));}catch(e){}}
+function loadSettings(){
+  try{const s=JSON.parse(localStorage.getItem(SET_KEY)||'{}');SET_IDS.forEach(k=>{if(s[k]!=null)$(k).value=s[k];});}catch(e){}
+}
+function saveSettings(){
+  try{const s={};SET_IDS.forEach(k=>s[k]=$(k).value);localStorage.setItem(SET_KEY,JSON.stringify(s));}catch(e){}
+}
+
+let last=null;      // the current valid plan
+let log=loadLog();
+
+function dailyInfo(){
+  const cap=num($('cap').value), pct=num($('daily').value);
+  if(!(cap>0&&pct>0))return null;
+  const limit=cap*pct/100;
+  const used=log.items.reduce((a,x)=>a+x.loss,0);
+  return {limit,used,left:limit-used};
+}
+
+function render(){
+  const g=id=>num($(id).value);
+  const e=g('entry'),s=g('stop'),t=g('target'),cap=g('cap'),rk=g('risk'),mp=g('maxpos');
+  const oth=g('other')||0, mode=$('fee').value, sym=$('sym').value.trim().toUpperCase();
+  const msgs=[]; last=null;
+  const ready=[e,s,t,cap,rk].every(x=>Number.isFinite(x)&&x>0);
+  $('empty').classList.toggle('hide',ready&&s<e&&t>e);
+  $('out').classList.add('hide');
+
+  if(ready){
+    if(s>=e)msgs.push(['err','وقف الخسارة لازم يكون أقل من سعر الدخول.']);
+    else if(t<=e)msgs.push(['err','الهدف لازم يكون أعلى من سعر الدخول.']);
+    else{
+      const rate=(mode==='pct'?0.001:0)+oth/100, flat=mode==='flat'?4:0;
+      const riskAmt=cap*rk/100;
+      const perLoss=(e-s)+(e+s)*rate;
+      const qRisk=Math.max(0,Math.floor((riskAmt-flat)/perLoss));
+      const posCap=(mp>0&&mp<100)?cap*mp/100:cap;
+      const qPos=Math.floor(posCap/e);
+      const q=Math.min(qRisk,qPos);
+      if(q<1)msgs.push(['err','الكمية صفر. وسّع وقف الخسارة أو ارفع نسبة المخاطرة أو حجم المركز.']);
+      else{
+        const loss=q*(e-s)+q*(e+s)*rate+flat;
+        const fees=q*(e+t)*rate+flat;
+        const gain=q*(t-e)-fees;
+        const rr=gain/loss;
+        last={sym,q,e,s,t,loss,gain,rr,cost:q*e};
+        if(q<qRisk)msgs.push(['warn','الكمية محدودة بأقصى حجم للمركز، فالخسارة عند الوقف أقل من المخاطرة المسموحة.']);
+        if(rr<1.5)msgs.push(['warn','العائد عند الهدف أقل من مرة ونصف المخاطرة.']);
+        const d=dailyInfo();
+        if(d&&loss>d.left)msgs.push(['err','الخسارة المخططة ('+f2(loss)+' ج.م) أكبر من المتبقي من حد اليوم ('+f2(Math.max(0,d.left))+' ج.م).']);
+        draw(last,fees);
+      }
+    }
+  }
+  const ul=$('msgs');ul.textContent='';
+  msgs.forEach(([c,tx])=>{const li=document.createElement('li');if(c==='err')li.className='err';li.textContent=tx;ul.appendChild(li);});
+  gate();
+}
+
+function draw(p,fees){
+  $('out').classList.remove('hide');
+  const pos=Math.min(84,Math.max(16,(p.e-p.s)/(p.t-p.s)*100));
+  $('barg').style.height=(100-pos)+'%';
+  $('barl').style.height=pos+'%';
+  const set=(id,bottom,price,sub)=>{const m=$(id);m.style.bottom=bottom+'%';m.querySelector('b').textContent=price;m.querySelector('span').textContent=sub;};
+  set('mt',100,f2(p.t),'الهدف، مكسب '+f2(p.gain)+' ج.م');
+  set('me',pos,f2(p.e),'الدخول، '+f0(p.q)+' سهم');
+  set('ms',0,f2(p.s),'وقف الخسارة، خسارة '+f2(p.loss)+' ج.م');
+  const rows=[
+    ['الكمية',f0(p.q)+' سهم'],
+    ['قيمة الشراء',f2(p.cost)+' ج.م'],
+    ['الخسارة عند الوقف (بالرسوم)',f2(p.loss)+' ج.م'],
+    ['المكسب عند الهدف (بالرسوم)',f2(p.gain)+' ج.م'],
+    ['العائد مقابل المخاطرة',p.rr.toFixed(1)+' إلى 1'],
+    ['رسوم تقديرية عند الهدف',f2(fees)+' ج.م']
+  ];
+  const dl=$('stats');dl.textContent='';
+  rows.forEach(([k,v])=>{const a=document.createElement('dt');a.textContent=k;const b=document.createElement('dd');b.textContent=v;dl.append(a,b);});
+}
+
+function gate(){
+  const all=[...document.querySelectorAll('.chk')].every(c=>c.checked);
+  $('copy').disabled=!last;
+  $('logit').disabled=!(last&&all);
+}
+
+function renderLog(){
+  const d=dailyInfo();
+  $('dailybox').classList.toggle('hide',!d);
+  if(d){
+    const pct=Math.min(100,d.used/d.limit*100);
+    const m=$('meterfill');m.style.width=pct+'%';
+    m.style.background=pct>=100?'var(--stop)':pct>=70?'var(--warn)':'var(--go)';
+    $('dailytxt').textContent='المخطط اليوم '+f2(d.used)+' من '+f2(d.limit)+' ج.م، المتبقي '+f2(Math.max(0,d.left))+' ج.م.';
+  }
+  const ul=$('log');ul.textContent='';
+  log.items.forEach((it,i)=>{
+    const li=document.createElement('li');
+    const sp=document.createElement('span');
+    sp.textContent=(it.sym||'سهم')+': '+f0(it.q)+' سهم عند '+f2(it.e)+'، خسارة مخططة '+f2(it.loss)+' ج.م';
+    const b=document.createElement('button');b.textContent='حذف';b.setAttribute('aria-label','حذف صفقة '+(it.sym||'')+' من السجل');
+    b.onclick=()=>{log.items.splice(i,1);saveLog(log);renderLog();render();};
+    li.append(sp,b);ul.appendChild(li);
+  });
+  if(!log.items.length&&d)$('dailytxt').textContent+=' لم تُسجَّل صفقات اليوم.';
+}
+
+function planText(p){
+  return ['خطة صفقة EGX',
+    p.sym?'السهم: '+p.sym:null,
+    'شراء '+f0(p.q)+' سهم عند '+f2(p.e),
+    'وقف الخسارة: '+f2(p.s)+' (خسارة مخططة '+f2(p.loss)+' ج.م)',
+    'الهدف: '+f2(p.t)+' (مكسب متوقع '+f2(p.gain)+' ج.م)',
+    'العائد يعادل '+p.rr.toFixed(1)+' مرة المخاطرة',
+    'قيمة الشراء: '+f2(p.cost)+' ج.م',
+    'التنفيذ: أمر bracket في ThndrX'].filter(Boolean).join('\n');
+}
+
+$('copy').onclick=async()=>{
+  if(!last)return;
+  const txt=planText(last);let done=false;
+  try{await navigator.clipboard.writeText(txt);done=true;}catch(e){}
+  if(!done){
+    const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();
+    try{done=document.execCommand('copy');}catch(e){}
+    ta.remove();
+  }
+  $('copied').textContent=done?'تم نسخ الخطة.':'تعذّر النسخ تلقائيًا. انسخ الأرقام من الأعلى.';
+};
+
+$('logit').onclick=()=>{
+  if(!last)return;
+  log.items.push({sym:last.sym,q:last.q,e:last.e,loss:last.loss});
+  saveLog(log);
+  document.querySelectorAll('.chk').forEach(c=>c.checked=false);
+  $('copied').textContent='تم تسجيل الصفقة في سجل اليوم.';
+  renderLog();render();
+};
+
+document.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',()=>{
+  if(SET_IDS.includes(el.id))saveSettings();
+  $('copied').textContent='';
+  render();renderLog();
+}));
+document.querySelectorAll('.chk').forEach(c=>c.addEventListener('change',gate));
+
+loadSettings();renderLog();render();
+</script>
+</body>
+</html>

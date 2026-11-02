@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101827"><title>EGX AI Trader</title>
+<style>
+:root{--bg:#0b1220;--p:#121d2e;--p2:#18263a;--line:#26374e;--t:#eef4fb;--m:#9eb0c6;--g:#28c58a;--r:#ff6b75;--a:#f3bd58}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:15px system-ui,sans-serif}.wrap{max-width:1100px;margin:auto;padding:16px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-size:23px;font-weight:800}.muted,.k{color:var(--m);font-size:12px}.pill,.tag{border:1px solid #665022;color:var(--a);border-radius:20px;padding:5px 9px;font-size:11px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:15px 0}.card{background:var(--p);border:1px solid var(--line);border-radius:14px;padding:14px}.v{font-size:23px;font-weight:800;margin-top:5px}.layout{display:grid;grid-template-columns:1.3fr .8fr;gap:12px}.title{font-weight:750;margin:0 0 12px}table{width:100%;border-collapse:collapse;font-size:13px}td,th{text-align:right;padding:11px 7px;border-bottom:1px solid var(--line)}th{color:var(--m)}.green{color:var(--g)}.red{color:var(--r)}.amber{color:var(--a)}label{display:block;color:var(--m);font-size:12px;margin:10px 0 5px}input{width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;background:#0c1626;color:var(--t)}button{border:0;border-radius:9px;padding:10px 13px;background:var(--g);color:#062116;font-weight:750;cursor:pointer}.secondary{background:var(--p2);border:1px solid var(--line);color:var(--t)}.danger{background:#4a202b;color:#ffdce0}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.notice{background:#302817;border:1px solid #665022;color:#f5d99d;padding:12px;border-radius:11px;font-size:12px;line-height:1.7;margin:14px 0}.signal{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}footer{text-align:center;color:var(--m);font-size:11px;margin:22px}#toast{display:none;position:fixed;bottom:15px;left:50%;transform:translateX(-50%);background:#21334b;padding:12px;border-radius:10px;max-width:90%}
+@media(max-width:720px){.grid{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.wrap{padding:11px}}
+</style></head><body><main class="wrap">
+<header class="top"><div><div class="brand">⚡ EGX AI Trader</div><div class="muted">لوحة مراقبة وفرص — نسخة MVP تجريبية</div></div><span class="pill">● DEMO · غير متصل بالسوق</span></header>
+<div class="notice"><b>تنبيه:</b> الأسعار والأسهم والأرصدة والإشارات هنا افتراضية للتجربة فقط. لا يوجد اتصال بثاندر أو أسعار EGX، ولا يمكن إرسال أوامر حقيقية.</div>
+<div class="grid">
+<div class="card"><div class="k">رأس مال المضاربة (مثال)</div><div class="v">60,000 ج.م</div></div>
+<div class="card"><div class="k">حد الخسارة اليومي المقترح</div><div class="v red">900 ج.م</div></div>
+<div class="card"><div class="k">فرص تحت المراقبة</div><div class="v">3</div></div>
+<div class="card"><div class="k">اتصال السوق</div><div class="v amber" style="font-size:18px">غير متصل</div></div>
+</div>
+<div class="layout"><section class="card"><h3 class="title">ماسح الفرص — بيانات افتراضية</h3>
+<table><thead><tr><th>السهم</th><th>السعر</th><th>التغير</th><th>التقييم</th><th>الحالة</th></tr></thead><tbody>
+<tr><td>COMI</td><td>72.40</td><td class="green">+2.1%</td><td>91/100</td><td>مراقبة</td></tr>
+<tr><td>EFID</td><td>18.65</td><td class="green">+1.4%</td><td>86/100</td><td>انتظار اختراق</td></tr>
+<tr><td>FWRY</td><td>6.82</td><td class="red">-0.6%</td><td>78/100</td><td>انتظار</td></tr>
+</tbody></table><p class="muted">الأسماء والأسعار أمثلة وليست بيانات فعلية أو توصيات.</p>
+<h3 class="title" style="margin-top:22px">سجل النشاط</h3><div id="log" class="muted">لا توجد صفقات. لم يتم إرسال أي أمر.</div></section>
+<aside class="card"><h3 class="title">حاسبة المخاطرة</h3>
+<label>رأس المال (جنيه)</label><input id="capital" type="number" value="60000">
+<label>نسبة المخاطرة (%)</label><input id="risk" type="number" value="0.5" step="0.1">
+<label>سعر الدخول الافتراضي</label><input id="entry" type="number" value="10" step="0.001">
+<label>وقف الخسارة الافتراضي</label><input id="stop" type="number" value="9.8" step="0.001">
+<div class="card" style="margin-top:12px;background:var(--p2)"><div class="k">الكمية القصوى حسب المخاطرة</div><div class="v" id="qty">1,500 سهم</div><div class="muted" id="riskcash">الخسارة المخططة: 300 جنيه</div></div>
+<div class="actions"><button class="secondary" onclick="calc()">إعادة الحساب</button></div></aside></div>
+<section class="card" style="margin-top:13px"><h3 class="title">مراجعة صفقة تجريبية</h3>
+<div class="signal"><div><b>DEMO-SYMBOL</b><div class="muted">اختراق مقاومة — مثال فقط</div></div><b class="green">82/100</b></div>
+<div class="grid" style="grid-template-columns:repeat(3,1fr)"><div><div class="k">الدخول</div><b>10.00</b></div><div><div class="k">وقف الخسارة</div><b>9.80</b></div><div><div class="k">الهدف الأول</div><b>10.40</b></div></div>
+<div class="muted">الموافقة هنا محلية للتجربة فقط، ولا تتصل بثاندر.</div><div class="actions"><button onclick="approve()">موافقة تجريبية</button><button class="danger" onclick="reject()">رفض الفكرة</button></div></section>
+<footer>EGX AI Trader MVP · Demo only · لا تستخدم البيانات لاتخاذ قرار استثماري</footer></main><div id="toast"></div>
+<script>
+function toast(s){let t=document.getElementById('toast');t.textContent=s;t.style.display='block';setTimeout(()=>t.style.display='none',2600)}
+function calc(){let c=+document.getElementById('capital').value,r=+document.getElementById('risk').value/100,e=+document.getElementById('entry').value,s=+document.getElementById('stop').value;if(c<=0||e<=0||s<=0||s>=e||r<=0){toast('راجع المدخلات: وقف الخسارة لازم يكون أقل من الدخول');return}let max=c*r,q=Math.floor(max/(e-s));document.getElementById('qty').textContent=q.toLocaleString('en-US')+' سهم';document.getElementById('riskcash').textContent='الخسارة المخططة: '+(q*(e-s)).toFixed(2)+' جنيه قبل المصروفات والانزلاق'}
+function approve(){document.getElementById('log').textContent='تم تسجيل موافقة تجريبية فقط. لم يتم إرسال أي أمر.';toast('موافقة تجريبية — لا يوجد تنفيذ حقيقي')}
+function reject(){document.getElementById('log').textContent='تم رفض الفكرة التجريبية. لم يتم إرسال أي أمر.';toast('تم تسجيل الرفض التجريبي')}calc();
+</script></body></html>
